@@ -1,0 +1,27 @@
+# Dependencies (the project has zero runtime deps; this is for optional dev tooling only)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+pnpm-lock.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# Editor / IDE / tooling
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+*~
+.history/
+
+# Build / temp output (not used by the static app, kept for safety)
+dist/
+build/
+.cache/
+*.log

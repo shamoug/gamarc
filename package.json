@@ -1,0 +1,24 @@
+{
+  "name": "nexus-arcade",
+  "version": "1.0.0",
+  "description": "A self-contained, offline browser arcade platform with six games: RIFT, LATTICE, PULSE, VECTOR, HELIX, and QUANTA.",
+  "//": "OPTIONAL & DEV-ONLY. The app runs as static files with ZERO runtime dependencies. You do not need npm to play — see README. These scripts just provide a convenient static server and the logic tests.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "python -m http.server 8000",
+    "test": "node tests/rules.test.js && node tests/lattice.test.js && node tests/pulse.test.js && node tests/vector.test.js && node tests/helix.test.js && node tests/quanta.test.js"
+  },
+  "keywords": [
+    "game",
+    "arcade",
+    "strategy",
+    "canvas",
+    "vanilla-js",
+    "offline",
+    "static"
+  ],
+  "author": "Aladdin Shamoug",
+  "license": "MIT"
+}
