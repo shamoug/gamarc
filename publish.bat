@@ -79,8 +79,14 @@ if errorlevel 1 (
 echo [OK] Code pushed.
 
 REM --- 5. Turn on GitHub Pages (best effort, via the GitHub API) --------------
+REM Delegated to enable-pages.ps1 so the credential handling is reliable across
+REM PowerShell versions (inline -Command cannot feed git credential cleanly).
 echo [*] Ensuring GitHub Pages is enabled...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $q = 'protocol=https' + [char]10 + 'host=github.com' + [char]10 + [char]10; $out = $q | git credential fill; $tok = ($out | Where-Object {$_ -like 'password=*'}) -replace '^password=',''; if (-not $tok) { Write-Host '[!] No saved GitHub token found - enable Pages once at https://github.com/%OWNER%/%REPO%/settings/pages (Source: main, /root).'; exit 0 }; $h = @{ Authorization = 'Bearer ' + $tok; Accept='application/vnd.github+json'; 'User-Agent'='nexus-arcade-publish'; 'X-GitHub-Api-Version'='2022-11-28' }; $b = @{ source = @{ branch='%BRANCH%'; path='/' } } | ConvertTo-Json -Compress; try { Invoke-RestMethod -Method Post -Uri 'https://api.github.com/repos/%OWNER%/%REPO%/pages' -Headers $h -Body $b -ContentType 'application/json' | Out-Null; Write-Host '[OK] GitHub Pages enabled.' } catch { $c=0; try { $c=[int]$_.Exception.Response.StatusCode } catch {}; if ($c -eq 409) { Write-Host '[=] GitHub Pages was already enabled.' } else { Write-Host ('[!] Could not auto-enable Pages (HTTP ' + $c + '). Enable once at https://github.com/%OWNER%/%REPO%/settings/pages') } }"
+if exist "%~dp0enable-pages.ps1" (
+  powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0enable-pages.ps1" -Owner %OWNER% -Repo %REPO% -Branch %BRANCH%
+) else (
+  echo [!] enable-pages.ps1 not found - enable Pages once at https://github.com/%OWNER%/%REPO%/settings/pages (Source: main, /root^).
+)
 
 echo.
 echo ===============================================
