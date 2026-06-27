@@ -1,0 +1,11 @@
+# Normalise line endings: store everything as LF in the repo, check out as-is.
+# Keeps the static site identical across machines and silences CRLF warnings.
+* text=auto eol=lf
+
+# Treat these as binary (never munge line endings) if they ever appear.
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
